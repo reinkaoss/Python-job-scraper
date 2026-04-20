@@ -1,0 +1,12 @@
+{
+  "name": "job-scraper",
+  "private": true,
+  "scripts": {
+    "dev:frontend": "npm --prefix frontend start",
+    "dev:backend": "sh -c 'if [ -x .venv/bin/python ]; then PYTHONPATH=. .venv/bin/python api/index.py; else PYTHONPATH=. python3 api/index.py; fi'",
+    "dev:all": "concurrently -k -n frontend,backend -c blue,green \"npm run dev:frontend\" \"npm run dev:backend\""
+  },
+  "devDependencies": {
+    "concurrently": "^9.2.1"
+  }
+}

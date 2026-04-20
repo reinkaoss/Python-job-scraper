@@ -1,0 +1,587 @@
+/* ─── Design tokens ─────────────────────────────────────────── */
+:root {
+  --primary:        hsl(245, 56%, 60%);
+  --primary-hover:  hsl(245, 56%, 50%);
+  --surface:        hsl(0, 0%, 100%);
+  --background:     hsl(240, 20%, 99%);
+  --surface-raised: hsl(245, 56%, 97%);
+  --border:         hsl(240, 12%, 90%);
+  --error:          hsl(342, 89%, 52%);
+  --text:           hsl(240, 8%, 25%);
+  --text-light:     hsl(240, 8%, 52%);
+  --badge-bg:       hsl(245, 56%, 93%);
+  --badge-text:     hsl(245, 56%, 42%);
+}
+
+/* ─── Base ──────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--background);
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ─── App shell ──────────────────────────────────────────────── */
+.app-container {
+  max-width: 1800px;
+  margin: 0 auto;
+  padding: 2.5rem 2rem 5rem;
+}
+
+.app-header {
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+
+.app-title {
+  font-size: 2.25rem;
+  font-weight: 800;
+  margin: 0 0 0.5rem;
+  background: linear-gradient(135deg, var(--primary), hsl(280, 60%, 50%));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.app-subtitle {
+  color: var(--text-light);
+  font-size: 0.95rem;
+  margin: 0;
+}
+
+/* ─── Input card ─────────────────────────────────────────────── */
+.input-container {
+  background: var(--surface);
+  padding: 1.75rem;
+  border-radius: 16px;
+  max-width: 680px;
+  margin: 0 auto 2rem;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+  border: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  align-items: stretch;
+}
+
+.label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-light);
+}
+
+.textarea {
+  width: 100%;
+  padding: 0.65rem 0.875rem;
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  resize: vertical;
+  font-family: inherit;
+  font-size: 0.9rem;
+  color: var(--text);
+  background: var(--background);
+  transition: border-color 0.2s;
+}
+
+.textarea:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px hsla(245, 56%, 60%, 0.12);
+}
+
+/* ─── Primary button ─────────────────────────────────────────── */
+.button {
+  padding: 0.8rem 1.5rem;
+  background: var(--primary);
+  color: #fff;
+  font-weight: 700;
+  font-size: 0.95rem;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.15s;
+  align-self: center;
+}
+
+.button:hover { background: var(--primary-hover); transform: translateY(-1px); }
+.button:active { transform: translateY(0); }
+.button-disabled { opacity: 0.6; cursor: not-allowed; }
+
+/* ─── Progress bar ───────────────────────────────────────────── */
+.loading-container {
+  max-width: 480px;
+  margin: 0 auto 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  align-items: center;
+}
+
+.loading-track {
+  width: 100%;
+  height: 6px;
+  background: var(--border);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.loading-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--primary), hsl(280, 60%, 50%));
+  border-radius: 999px;
+  transition: width 0.4s ease;
+}
+
+.loading-text {
+  font-size: 0.85rem;
+  color: var(--text-light);
+  font-weight: 500;
+  margin: 0;
+}
+
+/* ─── Sticky bulk bar ────────────────────────────────────────── */
+.bulk-bar-sticky-wrap {
+  position: sticky;
+  top: 0.75rem;
+  z-index: 100;
+  max-width: 1700px;
+  margin: 0 auto 1.5rem;
+}
+
+.bulk-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.875rem;
+  padding: 0.7rem 1.25rem;
+  background: rgba(255,255,255,0.92);
+  backdrop-filter: blur(14px);
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+}
+
+.select-all-label {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text);
+  cursor: pointer;
+  user-select: none;
+}
+
+.bulk-edit-button {
+  padding: 0.45rem 1rem;
+  background: var(--primary);
+  color: #fff;
+  font-weight: 600;
+  font-size: 0.82rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.bulk-edit-button:hover { background: var(--primary-hover); }
+
+.bulk-bar-count {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--text-light);
+}
+
+.bulk-bar .export-all-button {
+  margin-left: auto;
+  padding: 0.45rem 1rem;
+  font-size: 0.82rem;
+  font-weight: 600;
+}
+
+/* ─── Job grid ───────────────────────────────────────────────── */
+.job-list {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.25rem;
+  max-width: 1700px;
+  margin: 0 auto;
+}
+
+/* ─── Job card ───────────────────────────────────────────────── */
+.job-card {
+  background: var(--surface);
+  border-radius: 14px;
+  padding: 1.375rem 1.5rem 1.25rem;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+  border: 1px solid var(--border);
+  transition: box-shadow 0.2s, transform 0.2s;
+  position: relative;
+}
+
+.job-card::before {
+  content: '';
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 3px;
+  border-radius: 14px 14px 0 0;
+  background: linear-gradient(90deg, var(--primary), hsl(280,60%,50%));
+}
+
+.job-card:hover {
+  box-shadow: 0 8px 28px rgba(0,0,0,0.09);
+  transform: translateY(-2px);
+}
+
+.job-card.selected {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 2px hsla(245,56%,60%,0.25), 0 2px 12px rgba(0,0,0,0.05);
+}
+
+.job-card.incomplete {
+  border-color: hsl(342,89%,70%);
+  animation: pulse-border 2s ease-in-out infinite;
+}
+
+@keyframes pulse-border {
+  0%, 100% { box-shadow: 0 0 0 0 hsla(342,89%,52%,0.3); }
+  50%       { box-shadow: 0 0 0 5px hsla(342,89%,52%,0); }
+}
+
+/* ─── Card header ────────────────────────────────────────────── */
+.card-header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding-bottom: 1rem;
+  margin-bottom: 1rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.card-header-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  width: 100%;
+}
+
+.card-select-label {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--text-light);
+  cursor: pointer;
+  padding-top: 3px;
+  user-select: none;
+  white-space: nowrap;
+}
+
+
+.card-title-input {
+  display: block;
+  width: 100%;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--text);
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid transparent;
+  padding: 0 0 2px;
+  margin-bottom: 0.35rem;
+  transition: border-color 0.2s;
+  font-family: inherit;
+}
+.card-title-input:focus { outline: none; border-bottom-color: var(--primary); }
+.card-title-input.missing { border-bottom-color: var(--error); color: var(--error); }
+
+.card-subtitle-input {
+  width: 100%;
+  font-size: 0.875rem;
+  color: var(--text);
+  background: transparent;
+  border: none;
+  border-bottom: 1.5px solid var(--border);
+  padding: 0.45rem 0;
+  font-family: inherit;
+  transition: border-color 0.2s;
+  line-height: 1.4;
+}
+.card-subtitle-input:focus { outline: none; border-bottom-color: var(--primary); }
+.card-subtitle-input.missing { color: var(--error); border-bottom-color: var(--error); }
+
+/* Job type badge — editable pill, sits below title */
+.job-type-badge {
+  align-self: flex-start;
+  padding: 0.25rem 0.875rem;
+  background: var(--badge-bg);
+  color: var(--badge-text);
+  border: 1px solid transparent;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  font-family: inherit;
+  transition: all 0.2s;
+  width: auto;
+}
+.job-type-badge:focus { outline: none; border-color: var(--primary); background: #fff; }
+.job-type-badge.missing { background: hsl(342,80%,95%); color: var(--error); border-color: hsl(342,80%,80%); }
+
+/* ─── Field grid ─────────────────────────────────────────────── */
+.card-fields-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-bottom: 0.875rem;
+}
+
+.field-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.field-group--full { width: 100%; }
+
+.field-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--text-light);
+}
+
+/* Shared input-field style for grid fields */
+.card-fields-grid input[type="text"],
+.job-extra input[type="text"] {
+  width: 100%;
+  padding: 0.45rem 0;
+  border: none;
+  border-bottom: 1.5px solid var(--border);
+  background: transparent;
+  font-size: 0.875rem;
+  color: var(--text);
+  font-family: inherit;
+  transition: border-color 0.2s;
+  line-height: 1.4;
+}
+.card-fields-grid input[type="text"]:focus,
+.job-extra input[type="text"]:focus {
+  outline: none;
+  border-bottom-color: var(--primary);
+}
+.card-fields-grid input.missing,
+.job-extra input.missing {
+  border-bottom-color: var(--error);
+  color: var(--error);
+}
+
+/* ─── Salary group ───────────────────────────────────────────── */
+.salary-group {
+  grid-column: 1 / -1;
+  background: var(--surface-raised);
+  border-radius: 10px;
+  padding: 0.875rem 1rem 1rem;
+}
+
+.salary-group-header {
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-light);
+  margin: 0 0 0.75rem;
+}
+
+.salary-group-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+/* ─── Description textarea ───────────────────────────────────── */
+.description-textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+.preview-toggle-link {
+  background: none;
+  border: none;
+  color: var(--primary);
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0;
+  margin-top: 0.3rem;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  font-family: inherit;
+}
+.preview-toggle-link:hover { color: var(--primary-hover); }
+
+.description-preview {
+  margin-top: 0.75rem;
+  padding: 1rem;
+  background: var(--surface-raised);
+  border-radius: 8px;
+  font-size: 0.875rem;
+  line-height: 1.6;
+  border: 1px solid var(--border);
+  overflow-x: auto;
+}
+
+/* ─── Expanded section ───────────────────────────────────────── */
+.job-extra {
+  border-top: 1px dashed var(--border);
+  padding-top: 0.875rem;
+  margin-top: 0.25rem;
+  margin-bottom: 0.875rem;
+}
+
+/* ─── Card action bar ────────────────────────────────────────── */
+.job-card-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding-top: 0.875rem;
+  border-top: 1px solid var(--border);
+  flex-wrap: wrap;
+}
+
+.action-button {
+  padding: 0.4rem 0.875rem;
+  background: var(--primary);
+  color: #fff;
+  font-size: 0.78rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 7px;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.15s;
+  font-family: inherit;
+}
+.action-button:hover { background: var(--primary-hover); transform: translateY(-1px); }
+.action-button:active { transform: translateY(0); }
+
+.delete-button { background: var(--error); margin-left: auto; }
+.delete-button:hover { background: hsl(342,89%,43%); }
+
+/* ─── Modal ──────────────────────────────────────────────────── */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+  backdrop-filter: blur(3px);
+}
+
+.modal {
+  background: var(--surface);
+  border-radius: 18px;
+  padding: 2rem;
+  width: 440px;
+  max-width: 92vw;
+  box-shadow: 0 32px 80px rgba(0,0,0,0.18);
+}
+
+.modal-title {
+  font-size: 1.1rem;
+  font-weight: 800;
+  margin: 0 0 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  color: var(--text);
+}
+
+.modal-title-count {
+  font-size: 0.78rem;
+  font-weight: 600;
+  background: var(--badge-bg);
+  color: var(--badge-text);
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+}
+
+.modal-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.modal-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-light);
+}
+
+.modal-select, .modal-input {
+  width: 100%;
+  padding: 0.6rem 0.75rem;
+  border: 1.5px solid var(--border);
+  border-radius: 9px;
+  font-size: 0.9rem;
+  font-family: inherit;
+  color: var(--text);
+  background: var(--background);
+  transition: border-color 0.2s;
+}
+.modal-select:focus, .modal-input:focus { outline: none; border-color: var(--primary); }
+
+.modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+}
+
+.modal-cancel {
+  padding: 0.6rem 1.2rem;
+  background: transparent;
+  border: 1.5px solid var(--border);
+  border-radius: 9px;
+  font-weight: 600;
+  font-size: 0.875rem;
+  cursor: pointer;
+  color: var(--text-light);
+  font-family: inherit;
+  transition: border-color 0.2s;
+}
+.modal-cancel:hover { border-color: var(--text-light); color: var(--text); }
+
+.modal-apply {
+  padding: 0.6rem 1.4rem;
+  background: var(--primary);
+  color: #fff;
+  border: none;
+  border-radius: 9px;
+  font-weight: 700;
+  font-size: 0.875rem;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.2s;
+}
+.modal-apply:hover { background: var(--primary-hover); }
+.modal-apply:disabled { opacity: 0.4; cursor: not-allowed; }
+
+/* ─── Responsive ─────────────────────────────────────────────── */
+@media (max-width: 1100px) {
+  .job-list { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 600px) {
+  .app-container { padding: 1.25rem 1rem 4rem; }
+  .job-list { grid-template-columns: 1fr; }
+  .card-fields-grid { grid-template-columns: 1fr; }
+  .salary-group-fields { grid-template-columns: 1fr 1fr; }
+}

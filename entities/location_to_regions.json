@@ -1,0 +1,129 @@
+{
+    "West Midlands": [
+        "Birmingham",
+        "Coventry",
+        "Wolverhampton",
+        "Rugby",
+        "Solihull",
+        "Stoke-on-Trent",
+        "Telford"
+    ],
+    "South West": [
+        "Bristol",
+        "Plymouth",
+        "Exeter",
+        "Bath",
+        "Gloucester",
+        "Cheltenham",
+        "Truro",
+        "Salisbury",
+        "Swindon"
+    ],
+    "Wales": [
+        "Cardiff",
+        "Swansea",
+        "Newport",
+        "Bangor",
+        "Wrexham",
+        "Aberystwyth",
+        "Carmarthen"
+    ],
+    "Yorkshire and Humberside": [
+        "Doncaster",
+        "Leeds",
+        "Sheffield",
+        "Bradford",
+        "Hull",
+        "York",
+        "Huddersfield"
+    ],
+    "North East": [
+        "Gateshead",
+        "Newcastle",
+        "Sunderland",
+        "Middlesbrough",
+        "Durham",
+        "Hartlepool",
+        "Darlington"
+    ],
+    "North West": [
+        "Liverpool",
+        "Manchester",
+        "Preston",
+        "Blackpool",
+        "Bolton",
+        "Carlisle",
+        "Warrington",
+        "Chester",
+        "Lancaster"
+    ],
+    "East of England": [
+        "Milton Keynes",
+        "Cambridge",
+        "Norwich",
+        "Luton",
+        "Ipswich",
+        "Peterborough",
+        "Chelmsford",
+        "St Albans"
+    ],
+    "Scotland": [
+        "Edinburgh",
+        "Glasgow",
+        "Aberdeen",
+        "Dundee",
+        "Stirling",
+        "Inverness",
+        "Perth",
+        "Falkirk"
+    ],
+    "London": [
+        "London",
+        "Croydon",
+        "Kingston upon Thames",
+        "Harrow",
+        "Bromley",
+        "Ealing",
+        "Hillingdon"
+    ],
+    "South East": [
+        "Brighton",
+        "Oxford",
+        "Reading",
+        "Southampton",
+        "Guildford",
+        "Portsmouth",
+        "Maidstone",
+        "Winchester",
+        "Reigate",
+        "Chichester",
+        "Goodwood"
+    ],
+    "Northern Ireland": [
+        "Belfast",
+        "Derry",
+        "Lisburn",
+        "Newry",
+        "Armagh",
+        "Coleraine",
+        "Bangor"
+    ],
+    "Republic of Ireland": [
+        "Dublin",
+        "Cork",
+        "Galway",
+        "Limerick",
+        "Waterford",
+        "Kilkenny",
+        "Sligo"
+    ],
+    "East Midlands": [
+        "Nottingham",
+        "Derby",
+        "Leicester",
+        "Lincoln",
+        "Northampton",
+        "Chesterfield",
+        "Loughborough"
+    ]
+}
