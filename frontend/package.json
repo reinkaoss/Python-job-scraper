@@ -9,7 +9,7 @@
     "web-vitals": "^4.2.4"
   },
   "scripts": {
-    "start": "PORT=3001 react-scripts start",
+    "start": "PORT=3002 react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
@@ -17,7 +17,7 @@
   "devDependencies": {
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11"
   },
-  "proxy": "http://127.0.0.1:5000",
+  "proxy": "http://127.0.0.1:5001",
   "browserslist": {
     "production": [
       ">0.2%",

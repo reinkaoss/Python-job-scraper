@@ -205,7 +205,8 @@ body {
 /* ─── Job grid ───────────────────────────────────────────────── */
 .job-list {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  /* minmax(0, 1fr) so long unbreakable content (URLs) can never widen a column */
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 1.25rem;
   max-width: 1700px;
   margin: 0 auto;
@@ -220,6 +221,7 @@ body {
   border: 1px solid var(--border);
   transition: box-shadow 0.2s, transform 0.2s;
   position: relative;
+  min-width: 0; /* let the card shrink instead of stretching to fit long content */
 }
 
 .job-card::before {
@@ -574,14 +576,209 @@ body {
 .modal-apply:hover { background: var(--primary-hover); }
 .modal-apply:disabled { opacity: 0.4; cursor: not-allowed; }
 
+/* ─── Tabs ───────────────────────────────────────────────────── */
+.tabs {
+  display: inline-flex;
+  gap: 0.25rem;
+  margin-top: 1.25rem;
+  padding: 0.3rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.04);
+}
+
+.tab {
+  padding: 0.55rem 1.4rem;
+  background: transparent;
+  border: none;
+  border-radius: 9px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text-light);
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.2s, color 0.2s;
+}
+
+.tab:hover { color: var(--text); }
+
+.tab.active {
+  background: var(--primary);
+  color: #fff;
+}
+
+/* ─── Dropzone (File Extractor) ──────────────────────────────── */
+.dropzone {
+  border: 2px dashed var(--border);
+  border-radius: 12px;
+  padding: 2rem 1.5rem;
+  text-align: center;
+  cursor: pointer;
+  background: var(--background);
+  transition: border-color 0.2s, background 0.2s;
+}
+
+.dropzone:hover, .dropzone.dragover {
+  border-color: var(--primary);
+  background: var(--surface-raised);
+}
+
+.dropzone-title {
+  margin: 0 0 0.35rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.dropzone-hint {
+  margin: 0;
+  font-size: 0.8rem;
+  color: var(--text-light);
+}
+
+.file-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.file-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.3rem 0.5rem 0.3rem 0.75rem;
+  background: var(--badge-bg);
+  color: var(--badge-text);
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.file-chip-remove {
+  background: none;
+  border: none;
+  color: var(--badge-text);
+  font-size: 0.75rem;
+  cursor: pointer;
+  padding: 0.1rem 0.3rem;
+  border-radius: 999px;
+  line-height: 1;
+}
+.file-chip-remove:hover { background: rgba(0,0,0,0.08); }
+.file-chip-remove:disabled { opacity: 0.4; cursor: not-allowed; }
+
+/* ─── Card source badge ──────────────────────────────────────── */
+.card-source {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--text-light);
+  background: var(--surface-raised);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 0.25rem 0.5rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 100%;
+}
+
+/* ─── Generated URL output ───────────────────────────────────── */
+.url-result {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  padding: 0.6rem 0.75rem;
+  margin-bottom: 0.875rem;
+  background: var(--surface-raised);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+}
+
+.url-result-text {
+  flex: 1 1 100%;
+  min-width: 0;
+  font-size: 0.75rem;
+  color: var(--text);
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.generate-urls-button { white-space: nowrap; }
+
+/* ─── URLs modal ─────────────────────────────────────────────── */
+.urls-modal { width: 640px; }
+
+.urls-modal-hint {
+  font-size: 0.8rem;
+  color: var(--text-light);
+  margin: 0 0 0.75rem;
+}
+
+.urls-modal-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  max-height: 46vh;
+  overflow-y: auto;
+}
+
+.url-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.6rem 0.75rem;
+  background: var(--surface-raised);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+}
+
+.url-row-main {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.url-row-title {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.url-row-url {
+  font-size: 0.72rem;
+  color: var(--text-light);
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.url-row-error {
+  font-size: 0.78rem;
+  color: var(--error);
+  font-weight: 600;
+}
+
+.url-row-warning {
+  font-size: 0.72rem;
+  color: hsl(32, 90%, 38%);
+  font-weight: 600;
+}
+
 /* ─── Responsive ─────────────────────────────────────────────── */
 @media (max-width: 1100px) {
-  .job-list { grid-template-columns: repeat(2, 1fr); }
+  .job-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 
 @media (max-width: 600px) {
   .app-container { padding: 1.25rem 1rem 4rem; }
-  .job-list { grid-template-columns: 1fr; }
+  .job-list { grid-template-columns: minmax(0, 1fr); }
   .card-fields-grid { grid-template-columns: 1fr; }
   .salary-group-fields { grid-template-columns: 1fr 1fr; }
 }
