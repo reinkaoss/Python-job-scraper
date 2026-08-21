@@ -23,8 +23,9 @@ logger.addHandler(_handler)
 # Load environment variables
 load_dotenv()
 
-# Define file paths based on environment
-folderPrefix = '/tmp' if os.getenv("APP_ENV") == 'production' else './data'
+# Vercel’s serverless FS is read-only except /tmp. Vercel sets VERCEL=1;
+# APP_ENV=production is not set automatically.
+folderPrefix = '/tmp' if os.getenv("VERCEL") or os.getenv("APP_ENV") == 'production' else './data'
 JOB_DETAILS_FILE = f"{folderPrefix}/job_details.json"
 
 # Create a Flask app and enable CORS

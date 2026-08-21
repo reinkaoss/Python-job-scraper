@@ -18,7 +18,9 @@ logger.addHandler(handler)
 load_dotenv()
 openai.api_key = os.getenv("OPENAI_API_KEY")
 PHANTOMJSCLOUD_API_KEY = os.getenv("PHANTOMJSCLOUD_API_KEY")
-folderPrefix = '/tmp' if os.getenv("APP_ENV") == 'production' else './data'
+# Vercel’s serverless FS is read-only except /tmp. Vercel sets VERCEL=1;
+# APP_ENV=production is not set automatically.
+folderPrefix = '/tmp' if os.getenv("VERCEL") or os.getenv("APP_ENV") == 'production' else './data'
 
 # Define persistent output file
 JOB_DETAILS_FILE = f"{folderPrefix}/job_details.json"
@@ -28,7 +30,8 @@ def save_page_source(url, file_name):
     saved_pages_dir = os.path.join(folderPrefix, "saved_pages")
     logger.debug(f"Saved pages directory: {saved_pages_dir}")
     os.makedirs(saved_pages_dir, exist_ok=True)
-    full_path = os.path.join(os.getcwd(), saved_pages_dir, file_name)
+    # folderPrefix is already an absolute path on Vercel (/tmp); do not prefix cwd
+    full_path = os.path.join(saved_pages_dir, file_name)
     logger.debug(f"Saving page to: {full_path}")
 
     payload = {
