@@ -3,7 +3,7 @@ from flask_cors import CORS
 import logging
 from dotenv import load_dotenv
 from bs4 import BeautifulSoup
-from scripts.fetch_jobs import extract_job_details, save_page_source
+from scripts.fetch_jobs import extract_job_details, save_page_source, JOB_DETAILS_FILE
 from scripts.extract_from_file import extract_text_from_upload, split_jobs_from_text
 import base64
 import html as html_lib
@@ -22,11 +22,6 @@ logger.addHandler(_handler)
 
 # Load environment variables
 load_dotenv()
-
-# Vercel’s serverless FS is read-only except /tmp. Vercel sets VERCEL=1;
-# APP_ENV=production is not set automatically.
-folderPrefix = '/tmp' if os.getenv("VERCEL") or os.getenv("APP_ENV") == 'production' else './data'
-JOB_DETAILS_FILE = f"{folderPrefix}/job_details.json"
 
 # Create a Flask app and enable CORS
 app = Flask(__name__)

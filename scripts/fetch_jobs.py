@@ -18,13 +18,21 @@ logger.addHandler(handler)
 load_dotenv()
 openai.api_key = os.getenv("OPENAI_API_KEY")
 PHANTOMJSCLOUD_API_KEY = os.getenv("PHANTOMJSCLOUD_API_KEY")
-# Vercel’s serverless FS is read-only except /tmp. Vercel sets VERCEL=1;
-# APP_ENV=production is not set automatically.
-folderPrefix = '/tmp' if os.getenv("VERCEL") or os.getenv("APP_ENV") == 'production' else './data'
 
-# Define persistent output file
+def _writable_data_dir():
+    """Vercel/Lambda only allow writes under /tmp. Ignore APP_ENV — it is often still 'local' in prod."""
+    on_lambda = bool(os.getenv("AWS_LAMBDA_FUNCTION_NAME") or os.path.isdir("/var/task"))
+    if not on_lambda:
+        try:
+            os.makedirs("./data", exist_ok=True)
+            return "./data"
+        except OSError:
+            pass
+    os.makedirs("/tmp", exist_ok=True)
+    return "/tmp"
+
+folderPrefix = _writable_data_dir()
 JOB_DETAILS_FILE = f"{folderPrefix}/job_details.json"
-os.makedirs(folderPrefix, exist_ok=True)
 
 def save_page_source(url, file_name):
     saved_pages_dir = os.path.join(folderPrefix, "saved_pages")

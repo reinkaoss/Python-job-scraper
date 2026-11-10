@@ -128,20 +128,36 @@ const App = () => {
   return (
     <div className="app-container">
       <header className="app-header">
-        <h1 className="app-title">Higherin Jobs Listings Scraper</h1>
+        <div className="app-brand">
+          <svg className="app-mark" viewBox="0 0 32 32" aria-hidden="true">
+            <rect x="5" y="6" width="22" height="20" rx="4" fill="none" stroke="currentColor" strokeWidth="2" />
+            <path d="M10 13h12M10 18h8" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+          </svg>
+          <h1 className="app-title">Job Listings Scraper</h1>
+        </div>
         <p className="app-subtitle">
           {activeTab === 'scraper'
-            ? 'Paste one or more job URLs to extract and moderate listings'
-            : 'Upload job description files (.docx, .pdf, .txt) to extract and moderate listings'}
+            ? 'Turn live job pages into structured listings you can review, edit, and export.'
+            : 'Turn uploaded job descriptions into structured listings you can review, edit, and export.'}
         </p>
-        <div className="tabs">
+        <div className="tabs" role="tablist" aria-label="Input method">
           <button
+            type="button"
+            role="tab"
+            id="tab-scraper"
+            aria-controls="scraper-panel"
+            aria-selected={activeTab === 'scraper'}
             className={activeTab === 'scraper' ? 'tab active' : 'tab'}
             onClick={() => setActiveTab('scraper')}
           >
             URL Scraper
           </button>
           <button
+            type="button"
+            role="tab"
+            id="tab-extractor"
+            aria-controls="extractor-panel"
+            aria-selected={activeTab === 'extractor'}
             className={activeTab === 'extractor' ? 'tab active' : 'tab'}
             onClick={() => setActiveTab('extractor')}
           >
@@ -150,10 +166,20 @@ const App = () => {
         </div>
       </header>
 
-      <div style={activeTab === 'scraper' ? undefined : { display: 'none' }}>
+      <div
+        id="scraper-panel"
+        role="tabpanel"
+        aria-labelledby="tab-scraper"
+        hidden={activeTab !== 'scraper'}
+      >
         <ScraperTab listApi={scraperList} />
       </div>
-      <div style={activeTab === 'extractor' ? undefined : { display: 'none' }}>
+      <div
+        id="extractor-panel"
+        role="tabpanel"
+        aria-labelledby="tab-extractor"
+        hidden={activeTab !== 'extractor'}
+      >
         <ExtractorTab listApi={extractorList} />
       </div>
     </div>
@@ -242,7 +268,11 @@ const ScraperTab = ({ listApi }) => {
           placeholder="https://example.com/job/1, https://example.com/job/2"
           className="textarea"
           rows={3}
+          aria-describedby="urls-hint"
         />
+        <p id="urls-hint" className="input-hint">
+          Paste public job URLs, separated by commas. Each page is fetched into a card with title, company, salary, and description so you can review it before exporting.
+        </p>
         <button onClick={fetchJobDetails} disabled={loading} className={`button ${loading ? 'button-disabled' : ''}`}>
           {loading
             ? `Processing ${fetchProgress.current} / ${fetchProgress.total}…`
@@ -380,13 +410,16 @@ const ExtractorTab = ({ listApi }) => {
         <label className="label">Job Description Files (.docx, .pdf, .txt, .md)</label>
         <div
           className={`dropzone ${dragOver ? 'dragover' : ''}`}
+          role="button"
+          tabIndex={0}
           onClick={() => fileInputRef.current?.click()}
+          onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); fileInputRef.current?.click(); } }}
           onDragOver={e => { e.preventDefault(); setDragOver(true); }}
           onDragLeave={() => setDragOver(false)}
           onDrop={handleDrop}
         >
           <p className="dropzone-title">Drag &amp; drop files here, or click to browse</p>
-          <p className="dropzone-hint">One file can contain several job postings — each is extracted as its own card</p>
+          <p className="dropzone-hint">.docx, .pdf, .txt, or .md — under 4MB each</p>
           <input
             ref={fileInputRef}
             type="file"
@@ -402,11 +435,15 @@ const ExtractorTab = ({ listApi }) => {
             {queuedFiles.map(file => (
               <span key={file.name} className="file-chip">
                 {file.name}
-                <button className="file-chip-remove" onClick={() => removeFile(file.name)} disabled={processing}>✕</button>
+                <button type="button" className="file-chip-remove" onClick={() => removeFile(file.name)} disabled={processing} aria-label={`Remove ${file.name}`}>✕</button>
               </span>
             ))}
           </div>
         )}
+
+        <p className="input-hint">
+          Drop one or more files. If a document has several postings, each becomes its own card so you can review and export the details.
+        </p>
 
         <button
           onClick={extractFromFiles}
@@ -741,7 +778,16 @@ const JobCard = ({ jobData, selected, onToggleSelect, onFieldUpdate, onDelete, o
         </label>
         {sourceLabel && (
           <div className="card-source" title={sourceLabel}>
-            {jobData.url ? '🔗' : '📄'} {sourceLabel}
+            {jobData.url ? (
+              <svg className="source-icon" viewBox="0 0 24 24" aria-hidden="true">
+                <path fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" d="M9 8H7a4 4 0 100 8h2M15 8h2a4 4 0 110 8h-2M8 12h8" />
+              </svg>
+            ) : (
+              <svg className="source-icon" viewBox="0 0 24 24" aria-hidden="true">
+                <path fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" d="M7 3h7l5 5v13a1 1 0 01-1 1H7a1 1 0 01-1-1V4a1 1 0 011-1zM14 3v6h6" />
+              </svg>
+            )}
+            <span className="card-source-text">{sourceLabel}</span>
           </div>
         )}
         <div className="card-header-body">
@@ -798,8 +844,8 @@ const JobCard = ({ jobData, selected, onToggleSelect, onFieldUpdate, onDelete, o
         <div className="field-group field-group--full">
           <label className="field-label">Description</label>
           <textarea placeholder="Job description…" {...f('description')} className={missing('description') ? 'textarea description-textarea missing' : 'textarea description-textarea'} />
-          <button onClick={() => setShowPreview(v => !v)} className="preview-toggle-link">
-            {showPreview ? '▲ Hide preview' : '▼ Show preview'}
+          <button type="button" onClick={() => setShowPreview(v => !v)} className="preview-toggle-link">
+            {showPreview ? 'Hide preview' : 'Show preview'}
           </button>
           {showPreview && (
             <div className="description-preview" dangerouslySetInnerHTML={{ __html: jd.description || '' }} />
